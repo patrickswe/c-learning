@@ -2,24 +2,27 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define MAX_TRIES 10
+
 int main()
 {
     //get random number
     srand(time(NULL));
     int secret = rand() % 100 + 1;
-    int guess, count = 0;
+    int guess=0, count = 0;
     
-    printf("I'm thinking of a number between 1 and 100.");
+    printf("I'm thinking of a number between 1 and 100.\n");
 
-    while ( guess != secret )
+    while ( guess != secret && count < MAX_TRIES )
     {
         printf("Take a guess: ");
         scanf("%d", &guess);
         count += 1;
         if (guess > secret) printf("Too High\n");
-        else if (guess > secret) printf("Too Low\n");
+        else if (guess <  secret) printf("Too Low\n");
     }
-    printf("Correct! You got it in %d tries.\n");
+    if (count >= 10) printf("You've run out of tries, the correct answer was %d.", secret);
+    else printf("Correct! You got it in %d tries.\n", count);
 
     return 0;
 }    
