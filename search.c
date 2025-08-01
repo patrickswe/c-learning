@@ -29,35 +29,37 @@ int main() {
 
     fclose(fileptr);
 
-    // Get the name to search
-    char search_name[100];
-    printf("Enter a name to search for: ");
-    scanf("%s", search_name);
-
-    // Read from file and search
-    fileptr = fopen(FILENAME, "r");
-    if (fileptr == NULL) {
-        printf("Error opening file for reading.\n");
-        return 1;
-    }
-
-    int flag = 0;
     char test_name[100];
+    char search_name[100];
 
-    while (fscanf(fileptr, "%s", test_name) != EOF) {
-        if (strcmp(test_name, search_name) == 0) {
-            flag = 1;
+    while (1) {
+        printf("Enter a name to search for (type \"exit\" to quit): ");
+        scanf("%s", search_name);
+        //test for exit
+        if (strcmp(search_name, "exit") == 0){
             break;
         }
+        // Open file
+        fileptr = fopen(FILENAME, "r");
+        if (fileptr == NULL) {
+            printf("Error opening file for reading.\n");
+            return 1;
+        }
+        //test for word in file
+        int flag = 0;
+        while (fscanf(fileptr, "%s", test_name) != EOF) {
+            if (strcmp(test_name, search_name) == 0) {
+                flag = 1;
+                break;
+            }
+        }
+           
+        fclose(fileptr); 
+        if (flag) {
+            printf("%s was found in %s\n", search_name, FILENAME);
+        } else {
+            printf("%s was not found in %s\n", search_name, FILENAME);
+        }
     }
-
-    fclose(fileptr);
-
-    if (flag) {
-        printf("%s was found in %s\n", search_name, FILENAME);
-    } else {
-        printf("%s was not found in %s\n", search_name, FILENAME);
-    }
-
     return 0;
 }
